@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "111049997154",
+    "firebase_url": "https://owing-cc4b8.firebaseio.com",
+    "project_id": "owing-cc4b8",
+    "storage_bucket": "owing-cc4b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111049997154:android:03905927d8ad2ceded4a3b",
+        "android_client_info": {
+          "package_name": "com.dipuj2ee.owing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111049997154-mie5fvjfrei0rd4rhq9a5hv3qb2ap2hd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dipuj2ee.owing",
+            "certificate_hash": "8436600011fd5ae9999c19b0ef226cd347c1cab5"
+          }
+        },
+        {
+          "client_id": "111049997154-qb3r7uoi8qe93ffhc5o2vnlqgvab2sf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLySSCTB2OaHqa8bujzItlg1QFJQ_lApY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111049997154-qb3r7uoi8qe93ffhc5o2vnlqgvab2sf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

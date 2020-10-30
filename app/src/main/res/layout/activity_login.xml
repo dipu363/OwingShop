@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.LoginActivity">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:textSize="28dp"
+            android:gravity="center"
+            android:text="Log In" android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_gravity="center"
+            android:id="@+id/login_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/userphoto"
+            app:civ_border_color="#E91E63"
+            app:civ_border_width="4dp"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="15"
+            app:civ_shadow_color="#668351"/>
+
+
+        <EditText
+            android:id="@+id/emailedittextid"
+            style="@style/edit_text_style_1"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:hint="E-mail Address"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/edtPassword"
+            style="@style/edit_text_style_1"
+            android:layout_below="@id/emailedittextid"
+            android:layout_marginTop="14dp"
+            android:ems="10"
+            android:hint="Password (6 Digits)"
+            android:inputType="textPassword" />
+
+        <ProgressBar
+            android:id="@+id/login_progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tvForgot"
+            android:layout_marginBottom="10dp"
+
+            android:background="@color/colorAccent"
+            android:text="Log In"
+            android:textAllCaps="false"
+            android:textColor="@color/color_white" />
+
+        <Button
+            android:id="@+id/btn_signup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="40dp"
+            android:layout_below="@+id/btn_login"
+            android:background="@color/colorAccent"
+            android:text="Sign Up"
+            android:textAllCaps="false"
+            android:textColor="@color/color_white" />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
