@@ -22,7 +22,7 @@ import java.util.List;
 
 public class CustomerProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView cname,caddress,cphone ,balancetext;
-    private CardView cardadd ,cardpaid, carddrtrid,cardcrtrid;
+    private CardView cardadd ,cardpaid, carddrtrid,cardbill,cardsms;
     private String name,phone,address,userid,cusid;
     SQLiteDBHandeler sqLiteDBHandeler;
 
@@ -46,13 +46,17 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
         cardadd = findViewById(R.id.card_add_due_id);
         cardpaid = findViewById(R.id.card_paid_due_id);
         carddrtrid = findViewById(R.id.drtr_cardid);
+        cardbill = findViewById(R.id.card_bill_id);
+        cardsms = findViewById(R.id.card_sms_id);
+
 
 
         balancetext=findViewById(R.id.balance_amountid);
         cardadd.setOnClickListener(this);
         cardpaid.setOnClickListener(this);
         carddrtrid.setOnClickListener(this);
-        cardcrtrid.setOnClickListener(this);
+        cardbill.setOnClickListener(this);
+        cardsms.setOnClickListener(this);
         sqLiteDBHandeler = new SQLiteDBHandeler(this);
 
 
@@ -114,6 +118,11 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
                 startActivity(intent_drtr);
 
 
+                break;
+            case R.id.card_sms_id:
+                Intent intent_sms = new Intent(CustomerProfileActivity.this,SmsActivity.class);
+                intent_sms.putExtra("phone",phone);
+                startActivity(intent_sms);
                 break;
 
         }

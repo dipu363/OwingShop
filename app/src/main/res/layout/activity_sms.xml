@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="7"
+    tools:context=".ui.SmsActivity">
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <EditText
+            android:background="@drawable/edittext_shape"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/editTextNumber"
+            android:textColor="@color/black"
+            android:hint="Recipient:"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_weight="6"
+        android:gravity="bottom"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:background="@drawable/image_button_shape"
+            android:src="@drawable/ic_add_24dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:id="@+id/addbtn"/>
+
+        <EditText
+            android:background="@drawable/edittext_shape"
+            android:layout_weight="4"
+            android:padding="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextMessage"
+            android:textColor="@color/black"
+            android:hint="Message"
+            android:textSize="24sp"/>
+
+        <ImageButton
+            android:background="@color/white"
+            android:src="@drawable/ic_masege_send_24"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="57dp"
+            android:id="@+id/sendButtonid"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

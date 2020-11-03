@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -139,7 +140,7 @@ public void signIn(String Uemail,String Upass){
     // check mobile net work status and then call checkvalidity method ;
     public void netWorkCheck(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+       NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnectedOrConnecting()){
 
             checkValidity();
@@ -180,8 +181,6 @@ public void signIn(String Uemail,String Upass){
         if(TextUtils.isEmpty(uemail)){
             useremail.setError("Please Type valid Email Address");
             useremail.requestFocus();
-
-
         }
         else if(TextUtils.isEmpty(upass)){
             userpasswordid.setError("Pleases Type Password");
