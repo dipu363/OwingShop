@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <EditText
-            android:background="@drawable/edittext_shape"
+            android:background="@drawable/edit_text_shape"
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:id="@+id/addbtn"/>
 
         <EditText
-            android:background="@drawable/edittext_shape"
+            android:background="@drawable/edit_text_shape"
             android:layout_weight="4"
             android:padding="10dp"
             android:layout_width="0dp"
