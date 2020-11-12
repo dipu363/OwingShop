@@ -97,14 +97,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                         String key = db_users.push().getKey();
                                         UserModel userModel = new UserModel(userid,name,phone,email,password);
                                         db_users.child(key).setValue(userModel);
-                                        signIn(email,password);
+                                        emailverify(email,password);
 
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                         Toast.makeText(SignUpActivity.this, "Email All Ready Used Or Invalid",
                                                 Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+                                       // startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
                                         btncountinu.setVisibility(View.VISIBLE);
                                         loadingProgress.setVisibility(View.INVISIBLE);
 
@@ -121,8 +121,20 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    public void emailverify(String email,String pass){
 
-    public void signIn(String Uemail,String Upass){
+        Intent intent = new Intent(SignUpActivity.this,Email_Verify_Activity.class);
+        intent.putExtra("email",email);
+        intent.putExtra("pass",pass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        finish();
+        startActivity(intent);
+
+    }
+
+
+
+/*    public void signIn(String Uemail,String Upass){
         mAuth.signInWithEmailAndPassword(Uemail,Upass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -135,9 +147,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
 
-
-
-    }
+    }*/
     // check mobile net work status and then call checkvalidity method ;
     public void netWorkCheck(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

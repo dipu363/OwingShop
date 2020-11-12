@@ -20,16 +20,35 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textColor="@color/colorPrimary"
         android:typeface="normal" />
-    <Button
-        android:id="@+id/btnemailverifyokid"
-        android:textAllCaps="false"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="9dp"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:text="Ok"/>
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:id="@+id/btnemailverifyokid"
+            android:textAllCaps="false"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ok"/>
+        <Button
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:id="@+id/gotologinbtnid"
+            android:textAllCaps="false"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="LogIn"/>
+    </LinearLayout>
+
+
 
 </LinearLayout>

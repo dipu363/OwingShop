@@ -58,10 +58,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginProgress.setVisibility(View.INVISIBLE);
 
         auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-
-
-
 
 
     }
@@ -69,27 +65,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-        if(user != null) {
-            //user is already login  so we need to redirect him to home page
-            updateUI();
 
+        user = auth.getCurrentUser();
+        if(user != null) {
+
+            if(user.isEmailVerified()){
+                updateUI();
+
+            }else{
+                Toast.makeText(LoginActivity.this, "Your Email is not verified Please verify your email", Toast.LENGTH_SHORT).show();
+            }
+
+            //user is already login  so we need to redirect him to home pag
+        }else{
+
+            Toast.makeText(this, "there have no current user", Toast.LENGTH_SHORT).show();
         }
     }
 
 
 
     private void updateUI() {
-        Intent intent = new Intent(LoginActivity.this, CustomerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
-        finish();
+            Intent intent = new Intent(LoginActivity.this, CustomerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_login:
+
                 netWorkCheck();
                 break;
 
@@ -117,11 +124,23 @@ public void signIn(String Uemail,String Upass){
                     if(task.isSuccessful()){
                         login.setVisibility(View.VISIBLE);
                         loginProgress.setVisibility(View.INVISIBLE);
-                        Toast.makeText(LoginActivity.this,"Congratulation ",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(LoginActivity.this,CustomerActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        clear();
+                        user = auth.getCurrentUser();
+                        if(user.isEmailVerified()){
+                            Toast.makeText(LoginActivity.this,"Congratulation ",Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(LoginActivity.this,CustomerActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            clear();
+
+                        }else{
+
+                           /* Toast.makeText(LoginActivity.this,"Congratulation ",Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(LoginActivity.this,CustomerActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            clear();*/
+                           Toast.makeText(LoginActivity.this, "Your Email is not verified Please verify your email", Toast.LENGTH_SHORT).show();
+                        }
 
                     }else{
                         login.setVisibility(View.VISIBLE);

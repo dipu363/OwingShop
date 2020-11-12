@@ -24,7 +24,7 @@ public class Email_Verify_Activity extends AppCompatActivity {
     private TextView emailverify;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
-    private Button buttonok;
+    private Button buttonok, btnlogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class Email_Verify_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         buttonok=findViewById(R.id.btnemailverifyokid);
+        btnlogin=findViewById(R.id.gotologinbtnid);
 
 
         if(user.isEmailVerified()){
@@ -50,17 +51,16 @@ public class Email_Verify_Activity extends AppCompatActivity {
             userLogin(email,password);
 
         }  else {
-            emailverify.setText("Email is not verified (click to verify email)");
+            emailverify.setText("Email is not verified (click  OK Button to verify your email address)");
             buttonok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    buttonok.setVisibility(View.INVISIBLE);
                     user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-
-                            Intent intent = new Intent(Email_Verify_Activity.this,LoginActivity.class);
-                            startActivity(intent);
-                            Toast.makeText(getApplicationContext(),"send a Email to your Email id please verify your Email",Toast.LENGTH_LONG).show();
+                            emailverify.setText("Chack your email address. There send a Link to verify your Email address.");
+                           // Toast.makeText(getApplicationContext(),"send a Email to your Email id please verify your Email",Toast.LENGTH_LONG).show();
 
                         }
                     });
@@ -68,6 +68,15 @@ public class Email_Verify_Activity extends AppCompatActivity {
             });
 
         }
+        btnlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Email_Verify_Activity.this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -80,7 +89,10 @@ public class Email_Verify_Activity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            startActivity(new Intent(Email_Verify_Activity.this,CustomerActivity.class));
+                            Intent intent = new Intent(Email_Verify_Activity.this,LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            finish();
+                            startActivity(intent);
 
                         }else{
                             Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
