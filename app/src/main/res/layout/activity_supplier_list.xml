@@ -3,18 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".ui.CustomerActivity">
-
+    tools:context=".ui.SupplierListActivity">
 
     <SearchView
-        android:background="@drawable/list_item_shape"
+        android:id="@+id/suppliersearchid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/list_item_shape"
         android:iconifiedByDefault="false"
-        android:id="@+id/customersearchid"
         android:queryHint="Search Your Customer">
 
     </SearchView>
@@ -26,7 +25,7 @@
         android:layout_weight="5">
 
         <ListView
-            android:id="@+id/cuslistviewid"
+            android:id="@+id/suplistviewid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@color/white"
@@ -35,17 +34,16 @@
 
         </ListView>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addsupplierfabid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:backgroundTint="@color/black"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_add_24dp" />
+
     </FrameLayout>
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:backgroundTint="@color/black"
-        android:contentDescription="TODO"
-        android:src="@drawable/ic_add_24dp" />
 
 
 </LinearLayout>

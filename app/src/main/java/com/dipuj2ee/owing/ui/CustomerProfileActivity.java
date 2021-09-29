@@ -3,8 +3,6 @@ package com.dipuj2ee.owing.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +15,14 @@ import androidx.cardview.widget.CardView;
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.db.SQLiteDBHandeler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerProfileActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView cname,caddress,cphone ,balancetext;
-    private CardView cardadd ,cardpaid, carddrtrid,cardbill,cardsms;
-    private String name,phone,address,userid,cusid;
+    private TextView cname, caddress, cphone, balancetext;
+    private CardView cardadd, cardpaid, carddrtrid, cardbill, cardsms;
+    private String name, phone, address, userid, cusid;
     SQLiteDBHandeler sqLiteDBHandeler;
+    Double netDebit, netCredit;
 
     private List<Double> drbalancelist;
     private List<Double> crbalancelist;
@@ -34,9 +32,9 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar .setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Profile");
+        actionBar.setTitle(" CUSTOMER PROFILE");
 
         setContentView(R.layout.activity_customer_profile);
 
@@ -130,50 +128,22 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
     }
 
     public void getbalance(){
-        Cursor c =sqLiteDBHandeler.getindividualcusbalance(cusid);
-         drbalancelist = new ArrayList<Double>();
-         crbalancelist = new ArrayList<Double>();
+
         double drtotalbal =0.0;
         double crtotalbal =0.0;
         double nettotalbalance =0.0;
 
+        Cursor c = sqLiteDBHandeler.getnetbalence(cusid);
+        if (c.moveToFirst()) {
 
-        if (c.moveToFirst()){
-
-            do {
-                drbalancelist.add(
-                        c.getDouble(3));
-            } while (c.moveToNext());
-
-            for(double drbal :drbalancelist){
-                 drtotalbal +=drbal;
-            }
-        }
-
-
-
-        if(c.moveToFirst()){
-
-            do {
-                crbalancelist.add(
-                        c.getDouble(4));
-            }
-            while (c.moveToNext());
-
-            for(double crbal :crbalancelist){
-                crtotalbal +=crbal;
-            }
-
+            drtotalbal = c.getDouble(3);
+            crtotalbal = c.getDouble(4);
 
         }
 
-        nettotalbalance = drtotalbal-crtotalbal;
-
-        String netbalance = String.valueOf(nettotalbalance);
-        balancetext.setText(netbalance);
-
-
-
+        nettotalbalance = drtotalbal - crtotalbal;
+        String netduebalance = String.valueOf(nettotalbalance);
+        balancetext.setText(netduebalance);
     }
 
 

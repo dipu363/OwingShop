@@ -1,15 +1,9 @@
 package com.dipuj2ee.owing.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -19,8 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dipuj2ee.owing.R;
-import com.dipuj2ee.owing.model.CustomerInfoModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,7 +34,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button login, signup;
     FirebaseAuth auth;
     FirebaseUser user;
-    private Intent HomeActivity;
     private ProgressBar loginProgress;
 
 
@@ -44,14 +42,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-      /*  ActionBar actionBar = getSupportActionBar();
-        actionBar .setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);*/
-
-        login= findViewById(R.id.btn_login);
-        signup= findViewById(R.id.btn_signup);
-        loginProgress= findViewById(R.id.login_progress);
-        useremail= findViewById(R.id.emailedittextid);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("SIGN IN");
+        login = findViewById(R.id.btn_login);
+        signup = findViewById(R.id.btn_signup);
+        loginProgress = findViewById(R.id.login_progress);
+        useremail = findViewById(R.id.emailedittextid);
         userpasswordid = findViewById(R.id.edtPassword);
         signup.setOnClickListener(this);
         login.setOnClickListener(this);

@@ -12,80 +12,80 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dipuj2ee.owing.R;
-import com.dipuj2ee.owing.model.CustomerInfoModel;
+import com.dipuj2ee.owing.model.SupplierModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CustomerInfoActivity extends AppCompatActivity {
+public class Supplier_infoActivity extends AppCompatActivity {
 
-
-    private EditText name,address,phone;
-    private Button savebtn;
-    DatabaseReference db_customer;
+    DatabaseReference db_supplier;
     FirebaseAuth mAuth;
     FirebaseUser fUser;
-
+    private EditText name, srname, phone;
+    private Button savebtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_info);
+        setContentView(R.layout.activity_supplier_info);
+
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar .setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("ADD CUSTOMER");
+        actionBar.setTitle("ADD SUPPLIER");
 
-        name = findViewById(R.id.cusnameid);
-        address=findViewById(R.id.cusaddressid);
-        phone = findViewById(R.id.cuscontactid);
-        savebtn = findViewById(R.id.cusbtnid);
+        name = findViewById(R.id.supnameid);
+        srname = findViewById(R.id.srnameid);
+        phone = findViewById(R.id.supcontactid);
+        savebtn = findViewById(R.id.suplierbtnid);
 
-        db_customer = FirebaseDatabase.getInstance().getReference("CustomerInfo");
+        db_supplier = FirebaseDatabase.getInstance().getReference("SupplierInfo");
         mAuth = FirebaseAuth.getInstance();
-        fUser =mAuth.getCurrentUser();
+        fUser = mAuth.getCurrentUser();
 
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 saveCustomerInfo();
                 clear();
-                Toast.makeText(CustomerInfoActivity.this, "Save Successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(Supplier_infoActivity.this, "Save Successful", Toast.LENGTH_LONG).show();
 
 
             }
         });
 
+
     }
 
 
-
     private void saveCustomerInfo() {
-        String cname = name.getText().toString().trim();
-        String caddress = address.getText().toString().trim();
-        String cphone = phone.getText().toString().trim();
+        String sname = name.getText().toString().trim();
+        String supsrname = srname.getText().toString().trim();
+        String sphone = phone.getText().toString().trim();
         String userid = fUser.getUid();
 
-        if(TextUtils.isEmpty(cname)){
+        if (TextUtils.isEmpty(sname)) {
             name.setError("Please type Name");
             name.requestFocus();
 
-        } if(TextUtils.isEmpty(caddress)){
-            address.setError("Please type Address");
-            address.requestFocus();
+        }
+        if (TextUtils.isEmpty(supsrname)) {
+            srname.setError("Please type Address");
+            srname.requestFocus();
 
-        } if(TextUtils.isEmpty(cphone)){
+        }
+        if (TextUtils.isEmpty(sphone)) {
             phone.setError("Please type Valid Phone Number");
             phone.requestFocus();
 
-        } else{
+        } else {
 
-           String key=  db_customer.push().getKey();
-            CustomerInfoModel cusmodel = new CustomerInfoModel(key,cname,caddress,cphone,userid);
-            db_customer.child(userid).child(key).setValue(cusmodel);
+            String key = db_supplier.push().getKey();
+            SupplierModel supmodel = new SupplierModel(key, userid, sname, supsrname, sphone);
+            db_supplier.child(userid).child(key).setValue(supmodel);
 
 
         }
@@ -95,19 +95,17 @@ public class CustomerInfoActivity extends AppCompatActivity {
 
     private void clear() {
         name.setText("");
-        address.setText("");
+        srname.setText("");
         phone.setText("");
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()==android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

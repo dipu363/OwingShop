@@ -1,15 +1,16 @@
 package com.dipuj2ee.owing.ui;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.db.SQLiteDBHandeler;
@@ -45,7 +46,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
         ActionBar actionBar = getSupportActionBar();
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Calculator");
+        actionBar.setTitle("CALCULATOR");
 
         totalbalance =findViewById(R.id.totalbalanceid);
         singelbalance =findViewById(R.id.singelbalanceid);
@@ -121,6 +122,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
 
             case R.id.savecardbuttonid:
                 savebalancetk();
+                updatenetcrbalence();
             case R.id.cancelcardbuttonid:
                 singelbalance.setText("");
                 totalbalance.setText("");
@@ -142,13 +144,54 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
             formatter.format(date);
-            String trdate = String.valueOf(formatter.format(date));
+            String trdate = formatter.format(date);
             totalamount = Double.parseDouble(balancetk);
             BalanceModel balanceModel = new BalanceModel(userid, cusid, 0.0, totalamount, trdate);
             sqLiteBD.addBalanceInfo(balanceModel);
-            Toast.makeText(PaidCalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(PaidCalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
 
 
         }
+    }
+
+
+    private void updatenetcrbalence() {
+        balancetk = totalbalance.getText().toString().trim();
+
+        if (balancetk.equals("")) {
+            Toast.makeText(PaidCalculationActivity.this, "Please Add amount TK", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            Cursor c = sqLiteBD.getnetbalence(cusid);
+            if (c.moveToFirst()) {
+                Double predrbalence = c.getDouble(3);
+                Double precrbalence = c.getDouble(4);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new Date();
+                formatter.format(date);
+                String trdate = formatter.format(date);
+                totalamount = Double.parseDouble(balancetk);
+                Double netcrbalence = precrbalence + totalamount;
+                BalanceModel balanceModel = new BalanceModel(userid, cusid, predrbalence, netcrbalence, trdate);
+                sqLiteBD.updateNetBalance(balanceModel, cusid);
+                Toast.makeText(PaidCalculationActivity.this, "update Successful", Toast.LENGTH_SHORT).show();
+
+            } else {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new Date();
+                formatter.format(date);
+                String trdate = formatter.format(date);
+                totalamount = Double.parseDouble(balancetk);
+                BalanceModel balanceModel = new BalanceModel(userid, cusid, 0.0, totalamount, trdate);
+                sqLiteBD.addnetBalance(balanceModel);
+                Toast.makeText(PaidCalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        }
+
+
     }
 }

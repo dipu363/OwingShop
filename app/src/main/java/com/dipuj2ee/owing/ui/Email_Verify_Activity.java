@@ -1,9 +1,5 @@
 package com.dipuj2ee.owing.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dipuj2ee.owing.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +35,7 @@ public class Email_Verify_Activity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("EMAIL ID VERIFY");
 
         emailverify= findViewById(R.id.emailverificationid);
 
@@ -89,7 +90,7 @@ public class Email_Verify_Activity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            Intent intent = new Intent(Email_Verify_Activity.this,LoginActivity.class);
+                            Intent intent = new Intent(Email_Verify_Activity.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             finish();
                             startActivity(intent);

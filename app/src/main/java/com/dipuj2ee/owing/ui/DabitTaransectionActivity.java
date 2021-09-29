@@ -1,15 +1,13 @@
 package com.dipuj2ee.owing.ui;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.adapter.DrTransectionAdapter;
@@ -41,7 +39,7 @@ public class DabitTaransectionActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Debit Transaction");
+        actionBar.setTitle("TRANSACTION DETAILS");
 
         debittotaltaka = findViewById(R.id.totaldebittakaid);
         credittotaltaka = findViewById(R.id.totalcredittakaid);

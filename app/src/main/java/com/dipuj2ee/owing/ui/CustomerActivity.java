@@ -1,13 +1,7 @@
 package com.dipuj2ee.owing.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,9 +11,14 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.adapter.CustomerListAdapter;
 import com.dipuj2ee.owing.model.CustomerInfoModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +33,7 @@ import java.util.List;
 public class CustomerActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     // Declare Variables
     private ListView listView;
+    FloatingActionButton flbtn;
     private CustomerListAdapter cuslistadapter;
     private SearchView editsearch;
     private List<CustomerInfoModel> customerlist;
@@ -49,7 +49,8 @@ public class CustomerActivity extends AppCompatActivity implements SearchView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("CUSTOMERS");
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -58,8 +59,17 @@ public class CustomerActivity extends AppCompatActivity implements SearchView.On
         editsearch.setOnQueryTextListener(this);
 
         listView = findViewById(R.id.cuslistviewid);
+        flbtn = findViewById(R.id.fab);
+
+        flbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentadd = new Intent(CustomerActivity.this, CustomerInfoActivity.class);
+                startActivity(intentadd);
+            }
+        });
         customerlist = new ArrayList<>();
-        cuslistadapter = new CustomerListAdapter(this,customerlist);
+        cuslistadapter = new CustomerListAdapter(this, customerlist);
         getcustomerlist();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -98,7 +108,7 @@ public class CustomerActivity extends AppCompatActivity implements SearchView.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 customerlist.clear();
-                numofCus = (int) dataSnapshot.getChildrenCount();
+                // numofCus = (int) dataSnapshot.getChildrenCount();
                     for(DataSnapshot listdata:dataSnapshot.getChildren()){
                            CustomerInfoModel customerNames = listdata.getValue(CustomerInfoModel.class);
                            // Binds all strings into an array

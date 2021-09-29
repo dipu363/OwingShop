@@ -4,12 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="horizontal"
     tools:context=".ui.SignUpActivity">
-
-
-
-
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -23,57 +20,64 @@
             android:layout_marginRight="12dp"
             android:orientation="vertical">
 
+            <!--            <TextView-->
+            <!--                android:background="@drawable/edit_text_shape"-->
+            <!--                android:textColor="@color/Black"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:textSize="28dp"-->
+            <!--                android:gravity="center"-->
+            <!--                android:text="OWING SHOP"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"/>-->
+
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_gravity="center"
                 android:id="@+id/regUserPhoto"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:src="@drawable/userphoto"
-                app:civ_border_color="#E91E63"
-                app:civ_border_width="4dp"
+                app:civ_border_color="#1E223E"
+                app:civ_border_width="2dp"
                 app:civ_shadow="true"
                 app:civ_shadow_radius="10"
-                app:civ_shadow_color="#668351"/>
-
+                app:civ_shadow_color="#1E223E" />
 
 
             <EditText
                 android:id="@+id/edit_name"
-                style="@style/edit_text_style_1"
-                android:layout_gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_shape"
                 android:layout_marginTop="20dp"
                 android:hint="@string/user"
                 android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/edt_email"
-                style="@style/edit_text_style_1"
-                android:layout_gravity="left"
-                android:layout_below="@+id/edit_name"
-                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_shape"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
 
-
-
-
             <EditText
                 android:id="@+id/edt_phoneNo"
-                style="@style/edit_text_style_1"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_gravity="left"
-                android:layout_below="@+id/edt_email"
-                android:layout_marginBottom="2dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_shape"
+                android:layout_gravity="left"
                 android:hint="@string/phone"
                 android:inputType="phone" />
 
             <EditText
                 android:id="@+id/edt_password"
-                style="@style/edit_text_style_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_shape"
                 android:layout_gravity="left"
-                android:layout_below="@+id/edt_phoneNo"
-                android:layout_marginTop="14dp"
                 android:hint="Password (6 characters required)"
                 android:inputType="textPassword" />
 
@@ -89,24 +93,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_below="@+id/edt_password"
                 android:layout_marginTop="20dp"
-                android:background="@color/colorAccent"
+                android:background="@drawable/submit_button_shape"
                 android:text="@string/singup"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 android:textColor="@color/color_white" />
             <TextView
                 android:id="@+id/docLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_weight="1"
                 android:fontFamily="@font/robotoregular"
                 android:gravity="center"
                 android:text="Already have an account ? Login"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:typeface="normal" />
         </LinearLayout>
     </ScrollView>

@@ -1,19 +1,18 @@
 package com.dipuj2ee.owing.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.dipuj2ee.owing.R;
 
@@ -27,6 +26,10 @@ public class SmsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("SEND MASSAGE");
         ActivityCompat.requestPermissions(SmsActivity.this, new String[]{Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS}, PackageManager.PERMISSION_GRANTED);
 
         editTextMessage = findViewById(R.id.editTextMessage);
@@ -63,13 +66,22 @@ public class SmsActivity extends AppCompatActivity {
         sms.sendTextMessage(number, null, message, null,null);
 
 
-
         Toast.makeText(getApplicationContext(), "Message Sent successfully!",
                 Toast.LENGTH_LONG).show();
     }
-    public void clear(){
+
+    public void clear() {
 
         editTextNumber.setText("");
         editTextMessage.setText("");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

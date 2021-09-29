@@ -1,50 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="20dp"
     tools:context=".ui.CustomerInfoActivity">
+
     <TextView
-        android:textColor="@color/colorAccent"
+        android:background="@drawable/edit_text_shape"
+        android:textColor="@color/black"
         android:textSize="28dp"
         android:gravity="center"
         android:text="Customer Info"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-  <EditText
-      android:layout_marginTop="50dp"
-      android:id="@+id/cusnameid"
-      android:hint="Name"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
-    <EditText
+        android:layout_height="wrap_content" />
 
-        android:layout_marginTop="5dp"
+    <EditText
+        android:background="@drawable/edit_text_shape"
+        android:layout_marginTop="50dp"
+        android:id="@+id/cusnameid"
+        android:hint="Customer Name"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_shape"
         android:id="@+id/cusaddressid"
         android:hint="Address"
+        android:textSize="20sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <EditText
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_shape"
         android:id="@+id/cuscontactid"
         android:hint="Mobile No"
+        android:textSize="20sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <Button
+
        android:id="@+id/cusbtnid"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:text="Save"
-        android:background="@color/colorAccent"
+        android:background="@drawable/submit_button_shape"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
 
 </LinearLayout>

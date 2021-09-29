@@ -14,36 +14,23 @@
         android:background="@drawable/userphoto" />
 
     <TextView
-        android:id="@+id/cusnameid"
+        android:id="@+id/supnamesampleid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/cusphotoid"
         android:layout_toRightOf="@+id/cusphotoid"
-        android:text="dipu"
+        android:text="Uniliver"
         android:textColor="@color/DarkBlue"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/customeraddressid"
-        android:layout_width="wrap_content"
-        android:textColor="@color/black"
-        android:text="dipu"
-        android:layout_marginLeft="5dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cusnameid"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@id/cusphotoid"
-        android:layout_toRightOf="@id/cusphotoid"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/cusphoneid"
+        android:id="@+id/supsrnameid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/customeraddressid"
+        android:layout_below="@+id/supnamesampleid"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@id/cusphotoid"
@@ -53,30 +40,17 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/cusbltextid"
+        android:id="@+id/supphonesampleid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:text="Due Amount"
-        android:textColor="@color/DarkBlue"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_below="@+id/supsrnameid"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@id/cusphotoid"
+        android:layout_toRightOf="@id/cusphotoid"
+        android:text="01933932636"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/cusnetbalenceid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cusbltextid"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:text="0.0"
-        android:textColor="@color/dark_red"
-        android:textSize="20sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

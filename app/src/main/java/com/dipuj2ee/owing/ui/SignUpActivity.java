@@ -1,9 +1,5 @@
 package com.dipuj2ee.owing.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +16,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         ActionBar actionBar = getSupportActionBar();
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("REGISTRATION");
 
 
         loadingProgress = findViewById(R.id.regProgressBar);
@@ -126,7 +129,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(SignUpActivity.this,Email_Verify_Activity.class);
         intent.putExtra("email",email);
         intent.putExtra("pass",pass);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         finish();
         startActivity(intent);
 
