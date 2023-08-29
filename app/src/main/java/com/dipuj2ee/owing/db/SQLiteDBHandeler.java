@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
 
 import com.dipuj2ee.owing.model.BalanceModel;
 
@@ -58,9 +57,7 @@ public class SQLiteDBHandeler extends SQLiteOpenHelper {
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            db.disableWriteAheadLogging();
-        }
+        db.disableWriteAheadLogging();
     }
 
 
