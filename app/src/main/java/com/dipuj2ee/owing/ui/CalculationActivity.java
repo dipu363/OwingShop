@@ -27,12 +27,12 @@ import java.util.Date;
 public class CalculationActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView totalbalance;
     private EditText singelbalance;
-    private CardView savebt,cancelbt,plusbt,minusbt;
-    private String name,phone,address,userid,cusid,balance,singlblance , balancetk;
-    private Double amount,totalamount,total ;
+    private CardView savebt, cancelbt, plusbt, minusbt;
+    private String name, phone, address, userid, cusid, balance, singlblance, balancetk;
+    private Double amount, totalamount, total;
 
 
-    DatabaseReference db_customer;
+    DatabaseReference db_balance, db_balance_info;
     FirebaseAuth mAuth;
     FirebaseUser fUser;
 
@@ -61,17 +61,17 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         cancelbt.setOnClickListener(this);
 
         sqLiteBD = new SQLiteDBHandeler(this);
-
+        mAuth = FirebaseAuth.getInstance();
+        fUser = mAuth.getCurrentUser();
         Bundle bundle = getIntent().getExtras();
         name = bundle.getString("name");
         phone = bundle.getString("phone");
         address = bundle.getString("address");
         userid = bundle.getString("userid");
         cusid = bundle.getString("cusid");
+        db_balance = FirebaseDatabase.getInstance().getReference("Balance").child(fUser.getUid()).child(cusid);
+        db_balance_info = FirebaseDatabase.getInstance().getReference("BalanceInfo").child(fUser.getUid()).child(cusid);
 
-        db_customer = FirebaseDatabase.getInstance().getReference("Balance").child(cusid);
-        mAuth = FirebaseAuth.getInstance();
-        fUser =mAuth.getCurrentUser();
 
     }
 
@@ -141,7 +141,6 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         if(rowcount > 100){
             Log.d("mas",String.valueOf(rowcount));
             delatetOneRaw();
-
             savebalancetk();
 
         }else{
@@ -163,21 +162,24 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
 
     private void savebalancetk() {
         balancetk = totalbalance.getText().toString().trim();
-
+        String key = db_balance_info.push().getKey();
         if(balancetk.equals("")){
 
             Toast.makeText(CalculationActivity.this, "Please Add amount TK", Toast.LENGTH_SHORT).show();
 
         }else {
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Date date = new Date();
             formatter.format(date);
             String trdate = formatter.format(date);
             totalamount = Double.parseDouble(balancetk);
             BalanceModel balanceModel = new BalanceModel(userid, cusid, totalamount, 0.0, trdate);
             sqLiteBD.addBalanceInfo(balanceModel);
-            // Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
+            //db_balance.setValue(balanceModel);
+            assert key != null;
+            db_balance_info.child(key).setValue(balanceModel);
+            Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -243,7 +245,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
 
     private void updatenetdrbalence() {
         balancetk = totalbalance.getText().toString().trim();
-
+        String key = db_balance_info.push().getKey();
         if (balancetk.equals("")) {
             Toast.makeText(CalculationActivity.this, "Please Add amount TK", Toast.LENGTH_SHORT).show();
 
@@ -254,7 +256,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
                 Double predrbalence = c.getDouble(3);
                 Double precrbalence = c.getDouble(4);
 
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 Date date = new Date();
                 formatter.format(date);
                 String trdate = formatter.format(date);
@@ -263,16 +265,20 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
                 BalanceModel balanceModel = new BalanceModel(userid, cusid, netdrbalence, precrbalence, trdate);
                 //sqLiteBD.addnetBalance(balanceModel);
                 sqLiteBD.updateNetBalance(balanceModel, cusid);
+                db_balance.setValue(balanceModel);
+                // db_balance_info.child(key).setValue(balanceModel);
                 Toast.makeText(CalculationActivity.this, "update Successful", Toast.LENGTH_SHORT).show();
 
             } else {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 Date date = new Date();
                 formatter.format(date);
                 String trdate = formatter.format(date);
                 totalamount = Double.parseDouble(balancetk);
                 BalanceModel balanceModel = new BalanceModel(userid, cusid, totalamount, 0.0, trdate);
                 sqLiteBD.addnetBalance(balanceModel);
+                db_balance.setValue(balanceModel);
+                //db_balance_info.child(key).setValue(balanceModel);
                 Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
 
             }
