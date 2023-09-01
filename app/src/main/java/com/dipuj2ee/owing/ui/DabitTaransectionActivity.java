@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,11 @@ import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.adapter.DrTransectionAdapter;
 import com.dipuj2ee.owing.db.SQLiteDBHandeler;
 import com.dipuj2ee.owing.model.BalanceModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +26,7 @@ import java.util.List;
 public class DabitTaransectionActivity extends AppCompatActivity {
 
     private TextView debittotaltaka ,credittotaltaka;
+
     private String name,phone,address,userid,cusid;
     private ListView listView;
     private DrTransectionAdapter drTransectionAdapter;
@@ -28,6 +35,8 @@ public class DabitTaransectionActivity extends AppCompatActivity {
     SQLiteDBHandeler sqLiteDBHandeler;
     private List<Double> drbalancelist;
     private List<Double> crbalancelist;
+
+    DatabaseReference db_balance,db_balance_info;
 
 
 
@@ -55,9 +64,13 @@ public class DabitTaransectionActivity extends AppCompatActivity {
         address = bundle.getString("address");
         userid = bundle.getString("userid");
         cusid = bundle.getString("cusid");
+        db_balance = FirebaseDatabase.getInstance().getReference("Balance").child(userid).child(cusid);
+        db_balance_info = FirebaseDatabase.getInstance().getReference("BalanceInfo").child(userid).child(cusid);
 
-        getDrTransection();
-        getbalance();
+       // getDrTransection();
+        getTransection();
+       // getbalance();
+        getnetbalance();
 
 
     }
@@ -81,6 +94,29 @@ public class DabitTaransectionActivity extends AppCompatActivity {
 
 
 
+
+
+    }
+    private void getTransection(){
+        db_balance_info.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                balanceModelList.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    BalanceModel balanceModel= data.getValue(BalanceModel.class);
+                    assert balanceModel != null;
+                    System.out.println(balanceModel.getCusid());
+                    balanceModelList.add(balanceModel);
+                }
+
+                listView.setAdapter(drTransectionAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
     }
@@ -129,6 +165,32 @@ public class DabitTaransectionActivity extends AppCompatActivity {
 
 
 
+
+    }
+    public void getnetbalance(){
+
+        db_balance.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChildren()){
+                    System.out.println(dataSnapshot.getValue());
+                    BalanceModel balanceModel = dataSnapshot.getValue(BalanceModel.class);
+                    assert balanceModel != null;
+                    String totalDrBalance = String.valueOf(balanceModel.getDrBalance());
+                    String totalCrBalance = String.valueOf(balanceModel.getCrBalance());
+                    debittotaltaka.setText(totalDrBalance);
+                    credittotaltaka.setText(totalCrBalance);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

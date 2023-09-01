@@ -18,11 +18,11 @@
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Date"
+            android:text="Date Time"
             android:textColor="@color/black"
             android:layout_weight="2"
             android:layout_margin="5dp"
-            android:textSize="24sp">
+            android:textSize="16sp">
 
 
         </TextView>
@@ -31,10 +31,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Debit"
-            android:textColor="@color/black"
+            android:textColor="@color/green"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:textSize="24sp">
+            android:textSize="16sp">
 
         </TextView>
         <TextView
@@ -42,10 +42,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Credit"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:textSize="24sp">
+            android:textSize="16sp">
 
         </TextView>
 
@@ -66,7 +66,7 @@
             android:textColor="@color/black"
             android:layout_weight="2"
             android:layout_margin="5dp"
-            android:textSize="24sp">
+            android:textSize="14sp">
 
 
         </TextView>
@@ -79,7 +79,7 @@
             android:textColor="@color/black"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:textSize="24sp">
+            android:textSize="14sp">
 
         </TextView> <TextView
         android:id="@+id/totalcredittakaid"
@@ -90,7 +90,7 @@
         android:textColor="@color/black"
         android:layout_weight="1"
         android:layout_margin="5dp"
-        android:textSize="24sp">
+        android:textSize="14sp">
 
     </TextView>
 
@@ -103,8 +103,6 @@
     android:layout_width="match_parent"
     android:layout_height="2dp">
 </EditText>
-
-
         <ListView
             android:id="@+id/drlistid"
             android:divider="@color/black"
