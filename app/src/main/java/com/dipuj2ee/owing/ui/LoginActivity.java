@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("SIGN IN");
         login = findViewById(R.id.btn_login);
         signup = findViewById(R.id.btn_signup);
         loginProgress = findViewById(R.id.login_progress);

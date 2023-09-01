@@ -10,7 +10,8 @@ public class BalanceModel {
     Double crBalance;
     String trdate;
 
-
+    public BalanceModel() {
+    }
 
     public BalanceModel(String userid, String cusid, Double drBalance, Double crBalance, String trdate) {
         this.userid = userid;

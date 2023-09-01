@@ -15,14 +15,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="#1E223E">
+            android:background="#456F77">
 
             <ImageView
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="30dp"
                 android:id="@+id/profile_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/userphoto" />
 
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_toRightOf="@+id/profile_image"
                 android:text="dipu"
                 android:textColor="#FFFFFF"
-                android:textSize="48sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/addressid"
@@ -45,18 +45,18 @@
                 android:layout_toRightOf="@+id/profile_image"
                 android:text="Dhaka"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/phoneid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/addressid"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/profile_image"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/profile_image"
                 android:text="01933932636"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -88,7 +88,7 @@
                         android:hint="0.00"
                         android:textColorHint="@color/dark_red"
                         android:textColor="@color/dark_red"
-                        android:textSize="52dp" />
+                        android:textSize="36dp" />
 
                     <TextView
                         android:id="@+id/balance_id"
@@ -99,7 +99,7 @@
                         android:includeFontPadding="false"
                         android:text="বকেয়া বিল"
                         android:textColor="@color/background_holo_dark"
-                        android:textSize="36sp" />
+                        android:textSize="24sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -120,7 +120,7 @@
                 android:clickable="true"
 
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="#1E223E"
+                app:cardBackgroundColor="#456F77"
                 app:cardCornerRadius="10dp">
 
                 <RelativeLayout
@@ -132,10 +132,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="ADD"
                         android:textColor="@color/white"
-                        android:textSize="36dp" />
+                        android:textSize="20sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -148,7 +147,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="#1E223E"
+                app:cardBackgroundColor="#456F77"
                 app:cardCornerRadius="10dp">
 
                 <RelativeLayout
@@ -160,10 +159,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="PAID"
                         android:textColor="@color/white"
-                        android:textSize="36dp" />
+                        android:textSize="20sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -182,7 +180,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="#1E223E"
+                app:cardBackgroundColor="#456F77"
                 app:cardCornerRadius="10dp">
 
                 <RelativeLayout
@@ -195,10 +193,9 @@
                         android:id="@+id/bill_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Bill"
                         android:textColor="@color/white"
-                        android:textSize="36sp" />
+                        android:textSize="20sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -211,7 +208,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="#1E223E"
+                app:cardBackgroundColor="#456F77"
                 app:cardCornerRadius="10dp">
 
                 <RelativeLayout
@@ -224,10 +221,9 @@
                         android:id="@+id/masseges_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="SMS"
                         android:textColor="@color/white"
-                        android:textSize="36dp" />
+                        android:textSize="20dp" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -245,7 +241,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                app:cardBackgroundColor="#1E223E"
+                app:cardBackgroundColor="#456F77"
                 app:cardCornerRadius="10dp">
 
                 <RelativeLayout
@@ -258,10 +254,9 @@
                         android:id="@+id/dabit_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:text="Transection History"
                         android:textColor="@color/white"
-                        android:textSize="36dp" />
+                        android:textSize="20sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

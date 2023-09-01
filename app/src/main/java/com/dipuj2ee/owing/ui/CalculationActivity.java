@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -18,14 +19,17 @@ import com.dipuj2ee.owing.db.SQLiteDBHandeler;
 import com.dipuj2ee.owing.model.BalanceModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CalculationActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView totalbalance;
+    private TextView totalbalance,previousBalance;
     private EditText singelbalance;
     private CardView savebt, cancelbt, plusbt, minusbt;
     private String name, phone, address, userid, cusid, balance, singlblance, balancetk;
@@ -35,8 +39,8 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
     DatabaseReference db_balance, db_balance_info;
     FirebaseAuth mAuth;
     FirebaseUser fUser;
-
     SQLiteDBHandeler sqLiteBD;
+
 
 
     @Override
@@ -49,6 +53,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         actionBar.setTitle("CALCULATOR");
         setContentView(R.layout.activity_calculation);
         totalbalance =findViewById(R.id.totalbalanceid);
+        previousBalance =findViewById(R.id.previusduetextid);
         singelbalance =findViewById(R.id.singelbalanceid);
         savebt = findViewById(R.id.savecardbuttonid);
         cancelbt = findViewById(R.id.cancelcardbuttonid);
@@ -75,7 +80,13 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-//this mathod use for back to previus page
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getbalance();
+    }
+
+    //this mathod use for back to previus page
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -133,8 +144,6 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
-
-
     public void  rowcount(){
         Cursor c = sqLiteBD.getDebitTransection(cusid);
         int rowcount = c.getCount();
@@ -148,8 +157,6 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
-
-
     public void delatetOneRaw(){
         Cursor c = sqLiteBD.getDebitTransection(cusid);
 
@@ -159,7 +166,6 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
             Log.d("mas", "Deleted rew id is :" + rawid);
         }
     }
-
     private void savebalancetk() {
         balancetk = totalbalance.getText().toString().trim();
         String key = db_balance_info.push().getKey();
@@ -179,7 +185,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
             //db_balance.setValue(balanceModel);
             assert key != null;
             db_balance_info.child(key).setValue(balanceModel);
-            Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -241,8 +247,6 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         // String userid = fUser.getUid();
 
     }
-
-
     private void updatenetdrbalence() {
         balancetk = totalbalance.getText().toString().trim();
         String key = db_balance_info.push().getKey();
@@ -266,6 +270,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
                 //sqLiteBD.addnetBalance(balanceModel);
                 sqLiteBD.updateNetBalance(balanceModel, cusid);
                 db_balance.setValue(balanceModel);
+                getbalance();
                 // db_balance_info.child(key).setValue(balanceModel);
                 Toast.makeText(CalculationActivity.this, "update Successful", Toast.LENGTH_SHORT).show();
 
@@ -278,6 +283,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
                 BalanceModel balanceModel = new BalanceModel(userid, cusid, totalamount, 0.0, trdate);
                 sqLiteBD.addnetBalance(balanceModel);
                 db_balance.setValue(balanceModel);
+                getbalance();
                 //db_balance_info.child(key).setValue(balanceModel);
                 Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
 
@@ -286,6 +292,33 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
 
         }
 
+
+    }
+    public void getbalance(){
+
+        db_balance.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChildren()){
+                    System.out.println(dataSnapshot.getValue());
+                   BalanceModel balanceModel = dataSnapshot.getValue(BalanceModel.class);
+                    assert balanceModel != null;
+                    System.out.println(balanceModel.getCrBalance().toString());
+                    double nettotalbalance =0.0;
+                    nettotalbalance = balanceModel.getDrBalance() - balanceModel.getCrBalance();
+                    String netduebalance = String.valueOf(nettotalbalance);
+                    previousBalance.setText(netduebalance);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 }

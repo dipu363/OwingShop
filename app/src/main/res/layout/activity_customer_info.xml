@@ -9,29 +9,28 @@
     tools:context=".ui.CustomerInfoActivity">
 
     <TextView
-        android:background="@drawable/edit_text_shape"
         android:textColor="@color/black"
-        android:textSize="28dp"
-        android:gravity="center"
+        android:textSize="20sp"
         android:text="Customer Info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:background="@drawable/edit_text_shape"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/cusnameid"
         android:hint="Customer Name"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
     <EditText
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_shape"
         android:id="@+id/cusaddressid"
         android:hint="Address"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -40,19 +39,20 @@
         android:background="@drawable/edit_text_shape"
         android:id="@+id/cuscontactid"
         android:hint="Mobile No"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
     <Button
 
        android:id="@+id/cusbtnid"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:text="Save"
         android:background="@drawable/submit_button_shape"
         android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

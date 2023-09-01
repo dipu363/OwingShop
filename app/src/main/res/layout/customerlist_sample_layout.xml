@@ -6,21 +6,26 @@
     android:padding="10dp">
 
 
-    <TextView
+    <ImageView
         android:id="@+id/cusphotoid"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerVertical="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/userphoto" />
+
+    <ImageView
+        android:id="@+id/phoneiconid"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@+id/customeraddressid"
+        android:background="@drawable/ic_baseline_phone_android_24" />
 
     <TextView
         android:id="@+id/cusnameid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/cusphotoid"
-        android:layout_toRightOf="@+id/cusphotoid"
         android:text="dipu"
         android:textColor="@color/DarkBlue"
         android:textSize="20sp"
@@ -31,12 +36,10 @@
         android:layout_width="wrap_content"
         android:textColor="@color/black"
         android:text="dipu"
-        android:layout_marginLeft="5dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cusnameid"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/cusphotoid"
-        android:layout_toRightOf="@id/cusphotoid"
         android:textSize="16sp" />
 
     <TextView
@@ -45,38 +48,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/customeraddressid"
         android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_toEndOf="@id/cusphotoid"
-        android:layout_toRightOf="@id/cusphotoid"
+        android:layout_toEndOf="@+id/phoneiconid"
         android:text="dipu"
         android:textColor="@color/black"
         android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/cusbltextid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:text="Due Amount"
-        android:textColor="@color/DarkBlue"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/cusnetbalenceid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cusbltextid"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:text="0.0"
-        android:textColor="@color/dark_red"
-        android:textSize="20sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

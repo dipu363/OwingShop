@@ -7,21 +7,44 @@
     android:orientation="vertical"
     tools:context=".ui.CalculationActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1E223E"
-        android:orientation="vertical">
+        android:padding="10dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+        <TextView
+            android:hint="Total Due:  "
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView> <TextView
+        android:id="@+id/previusduetextid"
+        android:hint="0.00"
+        android:textColorHint="@color/red"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#456F77"
+        android:orientation="vertical"
+        android:gravity="center">
         <TextView
             android:id="@+id/totalbalanceid"
             android:hint="0.00"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
-            android:textSize="54dp"
+            android:textSize="30dp"
             android:textAlignment="center"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal">
         </TextView>
     </LinearLayout>
@@ -32,7 +55,7 @@
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             app:cardBackgroundColor="#FFFFFF">
             <EditText
                 android:id="@+id/singelbalanceid"
@@ -62,7 +85,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="#1E223E"
+            app:cardBackgroundColor="#456F77"
             app:cardCornerRadius="10dp">
 
             <RelativeLayout
@@ -77,7 +100,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="+"
                     android:textColor="@color/white"
-                    android:textSize="72dp" />
+                    android:textSize="36sp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -90,7 +113,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="#1E223E"
+            app:cardBackgroundColor="#456F77"
             app:cardCornerRadius="10dp">
 
             <RelativeLayout
@@ -107,7 +130,7 @@
                     android:fontFamily="@font/robotoregular"
                     android:text="-"
                     android:textColor="@color/white"
-                    android:textSize="72dp" />
+                    android:textSize="36sp" />
 
 
             </RelativeLayout>
@@ -130,7 +153,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="#1E223E"
+            app:cardBackgroundColor="#456F77"
             app:cardCornerRadius="10dp">
 
             <RelativeLayout
@@ -145,7 +168,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="Save"
                     android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="20dp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -158,7 +181,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="#1E223E"
+            app:cardBackgroundColor="#456F77"
             app:cardCornerRadius="10dp">
 
             <RelativeLayout
@@ -175,7 +198,7 @@
                     android:fontFamily="@font/robotoregular"
                     android:text="Cancel"
                     android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="20dp" />
 
 
             </RelativeLayout>

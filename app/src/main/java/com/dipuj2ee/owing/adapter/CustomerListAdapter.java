@@ -8,9 +8,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.db.SQLiteDBHandeler;
+import com.dipuj2ee.owing.model.BalanceModel;
 import com.dipuj2ee.owing.model.CustomerInfoModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,22 +32,19 @@ public class CustomerListAdapter extends BaseAdapter {
     private final ArrayList<CustomerInfoModel> arraylist;
     SQLiteDBHandeler dbnetBlance;
 
+
+
     public CustomerListAdapter(Context context, List<CustomerInfoModel> searchQueries) {
         mContext = context;
         this.searchQueries = searchQueries;
         inflater = LayoutInflater.from(mContext);
         this.arraylist = new ArrayList<CustomerInfoModel>();
         this.arraylist.addAll(searchQueries);
+
     }
 
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
-        double drtotalbal = 0.0;
-        double crtotalbal = 0.0;
-        double nettotalbalance = 0.0;
-        dbnetBlance = new SQLiteDBHandeler(mContext);
-        Cursor c = dbnetBlance.getnetbalence(searchQueries.get(position).getId());
-
         if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.customerlist_sample_layout, null);
@@ -47,7 +52,6 @@ public class CustomerListAdapter extends BaseAdapter {
             holder.cusname = view.findViewById(R.id.cusnameid);
             holder.cusaddress = view.findViewById(R.id.customeraddressid);
             holder.cusphone = view.findViewById(R.id.cusphoneid);
-            holder.cusduebalence = view.findViewById(R.id.cusnetbalenceid);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -56,15 +60,8 @@ public class CustomerListAdapter extends BaseAdapter {
         holder.cusname.setText(searchQueries.get(position).getName());
         holder.cusaddress.setText(searchQueries.get(position).getAddress());
         holder.cusphone.setText(searchQueries.get(position).getPhone());
-        if (c.moveToFirst()) {
-            drtotalbal = c.getDouble(3);
-            crtotalbal = c.getDouble(4);
 
-        }
 
-        nettotalbalance = drtotalbal - crtotalbal;
-        String netduebalance = String.valueOf(nettotalbalance);
-        holder.cusduebalence.setText(netduebalance);
         return view;
     }
 
@@ -105,6 +102,7 @@ public class CustomerListAdapter extends BaseAdapter {
         }*/
         //notifyDataSetChanged();
     }
+
 
 }
 

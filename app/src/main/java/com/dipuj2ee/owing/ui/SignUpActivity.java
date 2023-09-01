@@ -51,9 +51,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         ActionBar actionBar = getSupportActionBar();
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("REGISTRATION");
-
-
         loadingProgress = findViewById(R.id.regProgressBar);
         uname= findViewById(R.id.edit_name);
         uemail = findViewById(R.id.edt_email);

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -17,15 +18,18 @@ import com.dipuj2ee.owing.db.SQLiteDBHandeler;
 import com.dipuj2ee.owing.model.BalanceModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PaidCalculationActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView totalbalance;
+    private TextView totalbalance,previousBalance;
     private EditText singelbalance;
     private CardView savebt, cancelbt, plusbt, minusbt;
     private String name, phone, address, userid, cusid, balance, singlblance, balancetk;
@@ -49,6 +53,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
         actionBar.setTitle("CALCULATOR");
 
         totalbalance =findViewById(R.id.totalbalanceid);
+        previousBalance =findViewById(R.id.previusduetextid);
         singelbalance =findViewById(R.id.singelbalanceid);
         savebt = findViewById(R.id.savecardbuttonid);
         cancelbt = findViewById(R.id.cancelcardbuttonid);
@@ -132,8 +137,6 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
         }
 
     }
-
-
     private void savebalancetk() {
         balancetk = totalbalance.getText().toString().trim();
         String key = db_balance_info.push().getKey();
@@ -156,8 +159,6 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
 
         }
     }
-
-
     private void updatenetcrbalence() {
         balancetk = totalbalance.getText().toString().trim();
         String key = db_balance_info.push().getKey();
@@ -179,6 +180,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
                 BalanceModel balanceModel = new BalanceModel(userid, cusid, predrbalence, netcrbalence, trdate);
                 sqLiteBD.updateNetBalance(balanceModel, cusid);
                 db_balance.setValue(balanceModel);
+                getbalance();
                 //db_balance_info.child(key).setValue(balanceModel);
                 //Toast.makeText(PaidCalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
                 Toast.makeText(PaidCalculationActivity.this, "update Successful", Toast.LENGTH_SHORT).show();
@@ -192,6 +194,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
                 BalanceModel balanceModel = new BalanceModel(userid, cusid, 0.0, totalamount, trdate);
                 sqLiteBD.addnetBalance(balanceModel);
                 db_balance.setValue(balanceModel);
+                getbalance();
                 // db_balance_info.child(key).setValue(balanceModel);
                 //Toast.makeText(PaidCalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
                 Toast.makeText(PaidCalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
@@ -201,6 +204,33 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
 
         }
 
+
+    }
+    public void getbalance(){
+
+        db_balance.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChildren()){
+                    System.out.println(dataSnapshot.getValue());
+                    BalanceModel balanceModel = dataSnapshot.getValue(BalanceModel.class);
+                    assert balanceModel != null;
+                    System.out.println(balanceModel.getCrBalance().toString());
+                    double nettotalbalance =0.0;
+                    nettotalbalance = balanceModel.getDrBalance() - balanceModel.getCrBalance();
+                    String netduebalance = String.valueOf(nettotalbalance);
+                    previousBalance.setText(netduebalance);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 }

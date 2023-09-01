@@ -8,12 +8,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.db.SQLiteDBHandeler;
+import com.dipuj2ee.owing.model.BalanceModel;
+import com.dipuj2ee.owing.model.CustomerInfoModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -26,6 +34,8 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
 
     private List<Double> drbalancelist;
     private List<Double> crbalancelist;
+    DatabaseReference databaseReference;
+    BalanceModel balanceModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,8 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
         cardbill.setOnClickListener(this);
         cardsms.setOnClickListener(this);
         sqLiteDBHandeler = new SQLiteDBHandeler(this);
+        balanceModel = new BalanceModel();
+
 
 
 
@@ -65,6 +77,7 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
          address = bundle.getString("address");
          userid = bundle.getString("userid");
          cusid = bundle.getString("cusid");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Balance").child(userid).child(cusid);
 
 
 
@@ -73,6 +86,8 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
         cphone.setText(phone);
 
         //getbalance();
+
+
 
 
 
@@ -129,26 +144,31 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
 
     public void getbalance(){
 
-        double drtotalbal =0.0;
-        double crtotalbal =0.0;
-        double nettotalbalance =0.0;
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        Cursor c = sqLiteDBHandeler.getnetbalence(cusid);
-        if (c.moveToFirst()) {
+                if (dataSnapshot.hasChildren()){
+                    System.out.println(dataSnapshot.getValue());
+                    balanceModel = dataSnapshot.getValue(BalanceModel.class);
+                    assert balanceModel != null;
+                    System.out.println(balanceModel.getCrBalance().toString());
+                    double nettotalbalance =0.0;
+                    nettotalbalance = balanceModel.getDrBalance() - balanceModel.getCrBalance();
+                    String netduebalance = String.valueOf(nettotalbalance);
+                    balancetext.setText(netduebalance);
 
-            drtotalbal = c.getDouble(3);
-            crtotalbal = c.getDouble(4);
+                }
 
-        }
+            }
 
-        nettotalbalance = drtotalbal - crtotalbal;
-        String netduebalance = String.valueOf(nettotalbalance);
-        balancetext.setText(netduebalance);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
-
-
-
-
     //this mathod use for back to previus page
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
