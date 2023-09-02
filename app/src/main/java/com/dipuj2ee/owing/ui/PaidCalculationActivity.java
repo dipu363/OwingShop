@@ -42,6 +42,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
 
     SQLiteDBHandeler sqLiteBD;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
         ActionBar actionBar = getSupportActionBar();
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("CALCULATOR");
+        actionBar.setTitle("Calculator");
 
         totalbalance =findViewById(R.id.totalbalanceid);
         previousBalance =findViewById(R.id.previusduetextid);
@@ -81,10 +82,15 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        getbalance();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()==android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

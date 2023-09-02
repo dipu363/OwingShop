@@ -1,45 +1,34 @@
 package com.dipuj2ee.owing.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.db.SQLiteDBHandeler;
-import com.dipuj2ee.owing.model.BalanceModel;
 import com.dipuj2ee.owing.model.CustomerInfoModel;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class CustomerListAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
-    private List<CustomerInfoModel> searchQueries = null;
-    private final ArrayList<CustomerInfoModel> arraylist;
+    private final ArrayList<CustomerInfoModel> arraylist = new ArrayList<>();
+    private List<CustomerInfoModel> customerlist = null;
     SQLiteDBHandeler dbnetBlance;
-
 
 
     public CustomerListAdapter(Context context, List<CustomerInfoModel> searchQueries) {
         mContext = context;
-        this.searchQueries = searchQueries;
+        this.customerlist = searchQueries;
         inflater = LayoutInflater.from(mContext);
-        this.arraylist = new ArrayList<CustomerInfoModel>();
         this.arraylist.addAll(searchQueries);
+
 
     }
 
@@ -57,9 +46,9 @@ public class CustomerListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.cusname.setText(searchQueries.get(position).getName());
-        holder.cusaddress.setText(searchQueries.get(position).getAddress());
-        holder.cusphone.setText(searchQueries.get(position).getPhone());
+        holder.cusname.setText(customerlist.get(position).getName());
+        holder.cusaddress.setText(customerlist.get(position).getAddress());
+        holder.cusphone.setText(customerlist.get(position).getPhone());
 
 
         return view;
@@ -67,12 +56,12 @@ public class CustomerListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return searchQueries.size();
+        return customerlist.size();
     }
 
     @Override
     public CustomerInfoModel getItem(int position) {
-        return searchQueries.get(position);
+        return customerlist.get(position);
     }
 
     @Override
@@ -80,7 +69,7 @@ public class CustomerListAdapter extends BaseAdapter {
         return position;
     }
 
-    public class ViewHolder {
+    public static class ViewHolder {
         TextView cusname;
         TextView cusaddress;
         TextView cusphone;
@@ -88,20 +77,29 @@ public class CustomerListAdapter extends BaseAdapter {
     }
 
     // Filter Class
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-     /*   searchQueries.clear();
-        if (charText.length() == 0) {
-            searchQueries.addAll(arraylist);
+   /* public void filter(String charText) {
+
+       String queryText = charText.toLowerCase(Locale.getDefault());
+
+arraylist.size();
+        if (queryText.length() == 0) {
+            customerlist.clear();
+            customerlist.addAll(arraylist);
+            System.out.println(customerlist.size());
+
         } else {
-            for (CustomerInfoModel wp : arraylist) {
-                if (wp.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
-                    searchQueries.add(wp);
+            customerlist.clear();
+            for (CustomerInfoModel customer : arraylist) {
+                if (customer.getName().toLowerCase(Locale.getDefault()).contains(queryText)) {
+                    customerlist.add(customer);
                 }
+                System.out.println(customerlist.size());
             }
-        }*/
-        //notifyDataSetChanged();
-    }
+
+        }
+        notifyDataSetChanged();
+
+    }*/
 
 
 }

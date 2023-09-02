@@ -50,7 +50,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         ActionBar actionBar = getSupportActionBar();
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("CALCULATOR");
+        actionBar.setTitle("Calculator");
         setContentView(R.layout.activity_calculation);
         totalbalance =findViewById(R.id.totalbalanceid);
         previousBalance =findViewById(R.id.previusduetextid);

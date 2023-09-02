@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,10 +17,10 @@ import androidx.core.app.ActivityCompat;
 import com.dipuj2ee.owing.R;
 
 public class SmsActivity extends AppCompatActivity {
-     EditText editTextNumber,editTextMessage;
+    EditText editTextNumber, editTextMessage;
 
-     ImageButton sendButton,addbtn;
-     private String phoneNumber;
+    Button sendButton, addbtn;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
