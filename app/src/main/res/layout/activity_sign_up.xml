@@ -17,6 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="12dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="12dp"
             android:orientation="vertical">
 
             <TextView
@@ -50,7 +52,7 @@
                 android:id="@+id/edt_phoneNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_shape"
                 android:hint="@string/phone"
@@ -60,7 +62,7 @@
                 android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_shape"
                 android:hint="Password (6 characters required)"
@@ -77,7 +79,7 @@
                 android:id="@+id/btnSignUpContinue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/submit_button_shape"
                 android:text="@string/singup"
