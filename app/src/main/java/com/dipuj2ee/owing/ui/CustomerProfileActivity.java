@@ -2,7 +2,6 @@ package com.dipuj2ee.owing.ui;
 
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,6 @@ import androidx.cardview.widget.CardView;
 import com.dipuj2ee.owing.R;
 import com.dipuj2ee.owing.db.SQLiteDBHandeler;
 import com.dipuj2ee.owing.model.BalanceModel;
-import com.dipuj2ee.owing.model.CustomerInfoModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +26,7 @@ import java.util.List;
 public class CustomerProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView cname, caddress, cphone, balancetext;
     private CardView cardadd, cardpaid, carddrtrid, cardbill, cardsms;
-    private String name, phone, address, userid, cusid;
+    private String name, phone, address, userid, cusid, netduebalance;
     SQLiteDBHandeler sqLiteDBHandeler;
     Double netDebit, netCredit;
 
@@ -134,7 +132,8 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
                 break;
             case R.id.card_sms_id:
                 Intent intent_sms = new Intent(CustomerProfileActivity.this,SmsActivity.class);
-                intent_sms.putExtra("phone",phone);
+                intent_sms.putExtra("phone", phone);
+                intent_sms.putExtra("netBalance", netduebalance);
                 startActivity(intent_sms);
                 break;
 
@@ -155,7 +154,7 @@ public class CustomerProfileActivity extends AppCompatActivity implements View.O
                     System.out.println(balanceModel.getCrBalance().toString());
                     double nettotalbalance =0.0;
                     nettotalbalance = balanceModel.getDrBalance() - balanceModel.getCrBalance();
-                    String netduebalance = String.valueOf(nettotalbalance);
+                    netduebalance = String.valueOf(nettotalbalance);
                     balancetext.setText(netduebalance);
 
                 }

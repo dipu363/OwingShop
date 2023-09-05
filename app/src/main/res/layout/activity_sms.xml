@@ -8,20 +8,37 @@
     tools:context=".ui.SmsActivity">
 
     <LinearLayout
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_weight="6"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Sms Recipient"
+            android:textColor="@color/DarkBlue"
+            android:textSize="14sp" />
+
         <EditText
-            android:background="@drawable/edit_text_shape"
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextNumber"
             android:textColor="@color/black"
-            android:hint="Recipient:"
+            android:hint="Recipient number:"
             android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Your Massage"
+            android:textColor="@color/DarkBlue"
+            android:textSize="14sp" />
 
         <EditText
             android:background="@drawable/edit_text_shape"

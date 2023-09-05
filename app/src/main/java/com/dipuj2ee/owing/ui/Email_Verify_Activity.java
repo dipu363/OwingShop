@@ -24,7 +24,7 @@ public class Email_Verify_Activity extends AppCompatActivity {
     private TextView emailverify;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
-    private Button buttonok, btnlogin;
+    private Button buttonok, btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,46 +33,25 @@ public class Email_Verify_Activity extends AppCompatActivity {
 
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar .setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("EMAIL ID VERIFY");
+        actionBar.setTitle("Email Verify");
 
-        emailverify= findViewById(R.id.emailverificationid);
+        emailverify = findViewById(R.id.emailverificationid);
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        buttonok=findViewById(R.id.btnemailverifyokid);
-        btnlogin=findViewById(R.id.gotologinbtnid);
-
-
-        if(user.isEmailVerified()){
-            Bundle bundle = getIntent().getExtras();
-            String email = bundle.getString("email");
-            String password = bundle.getString("pass");
-            userLogin(email,password);
-
-        }  else {
-            emailverify.setText("Email is not verified (click  OK Button to verify your email address)");
-            buttonok.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    buttonok.setVisibility(View.INVISIBLE);
-                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            emailverify.setText("Chack your email address. There send a Link to verify your Email address.");
-                           // Toast.makeText(getApplicationContext(),"send a Email to your Email id please verify your Email",Toast.LENGTH_LONG).show();
-
-                        }
-                    });
-                }
-            });
-
-        }
-        btnlogin.setOnClickListener(new View.OnClickListener() {
+        buttonok = findViewById(R.id.btnemailverifyokid);
+        btnBack = findViewById(R.id.gotologinbtnid);
+        btnBack.setVisibility(View.INVISIBLE);
+        Bundle bundle = getIntent().getExtras();
+        String email = bundle.getString("email");
+        String password = bundle.getString("pass");
+        userLogin(email, password);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Email_Verify_Activity.this,LoginActivity.class);
+                Intent intent = new Intent(Email_Verify_Activity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
                 startActivity(intent);
@@ -85,24 +64,37 @@ public class Email_Verify_Activity extends AppCompatActivity {
 
 
     private void userLogin(String email, String password) {
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Intent intent = new Intent(Email_Verify_Activity.this, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            finish();
-                            startActivity(intent);
 
-                        }else{
-                            Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
+        if (user.isEmailVerified()) {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Intent intent = new Intent(Email_Verify_Activity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                finish();
+                                startActivity(intent);
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
 
+                            }
                         }
-                    }
-                });
+                    });
 
+        } else {
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    emailverify.setText("Chack your email address. There send a Link to verify your Email address.Click the link to verify your email");
+                    // Toast.makeText(getApplicationContext(),"send a Email to your Email id please verify your Email",Toast.LENGTH_LONG).show();
+                    btnBack.setVisibility(View.VISIBLE);
+                }
+            });
+
+        }
 
 
     }

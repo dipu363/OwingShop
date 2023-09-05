@@ -1,32 +1,49 @@
 package com.dipuj2ee.owing.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.dipuj2ee.owing.R;
+import com.dipuj2ee.owing.model.UserModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SmsActivity extends AppCompatActivity {
-    EditText editTextNumber, editTextMessage;
 
-    Button sendButton, addbtn;
-    private String phoneNumber;
+
+
+    public Context context;
+    EditText editTextNumber, editTextMessage;
+    UserModel userModel;
+    Button sendButton;
+    DatabaseReference dbUserinfo;
+    FirebaseUser currentUser;
+    FirebaseAuth auth;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("SEND MASSAGE");
@@ -35,19 +52,20 @@ public class SmsActivity extends AppCompatActivity {
         editTextMessage = findViewById(R.id.editTextMessage);
         editTextNumber = findViewById(R.id.editTextNumber);
         sendButton = findViewById(R.id.sendButtonid);
-
-        Bundle bundle = getIntent().getExtras();
-        phoneNumber = bundle.getString("phone");
+        userModel = new UserModel();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        dbUserinfo = FirebaseDatabase.getInstance().getReference("UsersInfo");
+        setSms();
+        bundle = getIntent().getExtras();
+        String phoneNumber = bundle.getString("phone");
         editTextNumber.setText(phoneNumber);
 
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        sendButton.setOnClickListener(view -> {
 
-                sendSMS();
-                clear();
-            }
+            sendSMS();
+            clear();
         });
 
     }
@@ -57,17 +75,46 @@ public class SmsActivity extends AppCompatActivity {
         String message = editTextMessage.getText().toString();
         String number = editTextNumber.getText().toString();
 
-       /* Intent intent=new Intent(getApplicationContext(),SmsActivity.class);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pi=PendingIntent.getActivity(getApplicationContext(), 0, intent,0);*/
-
         //Get the SmsManager instance and call the sendTextMessage method to send message
-        SmsManager sms=SmsManager.getDefault();
-        sms.sendTextMessage(number, null, message, null,null);
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(number, null, message, null, null);
 
 
         Toast.makeText(getApplicationContext(), "Message Sent successfully!",
                 Toast.LENGTH_LONG).show();
+    }
+
+
+    private void setSms() {
+        dbUserinfo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println(dataSnapshot.getChildrenCount());
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    userModel = ds.getValue(UserModel.class);
+                    assert userModel != null;
+                    if (userModel.getId().equals(currentUser.getUid())) {
+                        break;
+                    }
+
+                    System.out.println(userModel.getUname());
+                }
+                String netBalance = bundle.getString("netBalance");
+                String name = userModel.getUname();
+                String phone = userModel.getPhone();
+                String sms = name + "\n" + phone + "\nআপনার বাকি আছে" + netBalance + "টাকা\nধন্যবাদ";
+                editTextMessage.setText(sms);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     public void clear() {
@@ -84,4 +131,5 @@ public class SmsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
