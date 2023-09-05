@@ -4,10 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.telephony.SmsManager;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,13 +28,11 @@ import com.google.firebase.database.ValueEventListener;
 public class SmsActivity extends AppCompatActivity {
 
 
-    private final int SPLASH_TIME_OUT = 3000;
+
     public Context context;
-    Handler mHandler;
-    Runnable mRunnable;
     EditText editTextNumber, editTextMessage;
     UserModel userModel;
-    Button sendButton, addbtn;
+    Button sendButton;
     DatabaseReference dbUserinfo;
     FirebaseUser currentUser;
     FirebaseAuth auth;
@@ -47,6 +43,7 @@ public class SmsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("SEND MASSAGE");
@@ -62,17 +59,13 @@ public class SmsActivity extends AppCompatActivity {
         setSms();
         bundle = getIntent().getExtras();
         String phoneNumber = bundle.getString("phone");
-        String netBalance = bundle.getString("netBalance");
         editTextNumber.setText(phoneNumber);
 
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        sendButton.setOnClickListener(view -> {
 
-                sendSMS();
-                clear();
-            }
+            sendSMS();
+            clear();
         });
 
     }
@@ -109,7 +102,7 @@ public class SmsActivity extends AppCompatActivity {
                 String netBalance = bundle.getString("netBalance");
                 String name = userModel.getUname();
                 String phone = userModel.getPhone();
-                String sms = name + "\n" + phone + "\nbalance Due: " + netBalance + "\nThank you";
+                String sms = name + "\n" + phone + "\nআপনার বাকি আছে" + netBalance + "টাকা\nধন্যবাদ";
                 editTextMessage.setText(sms);
 
 
