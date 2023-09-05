@@ -13,21 +13,22 @@ import com.dipuj2ee.owing.model.CustomerInfoModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomerListAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
-    private final ArrayList<CustomerInfoModel> arraylist = new ArrayList<>();
-    private List<CustomerInfoModel> customerlist = null;
+    private List<CustomerInfoModel> searchList =null;
+    private List<CustomerInfoModel> customers = null;
     SQLiteDBHandeler dbnetBlance;
 
-
-    public CustomerListAdapter(Context context, List<CustomerInfoModel> searchQueries) {
+    public CustomerListAdapter(Context context, List<CustomerInfoModel> customerInfo, ArrayList<CustomerInfoModel> cusSearch) {
         mContext = context;
-        this.customerlist = searchQueries;
+        this.customers = customerInfo;
+        this.searchList = cusSearch;
         inflater = LayoutInflater.from(mContext);
-        this.arraylist.addAll(searchQueries);
+
 
 
     }
@@ -46,9 +47,9 @@ public class CustomerListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.cusname.setText(customerlist.get(position).getName());
-        holder.cusaddress.setText(customerlist.get(position).getAddress());
-        holder.cusphone.setText(customerlist.get(position).getPhone());
+        holder.cusname.setText(customers.get(position).getName());
+        holder.cusaddress.setText(customers.get(position).getAddress());
+        holder.cusphone.setText(customers.get(position).getPhone());
 
 
         return view;
@@ -56,12 +57,12 @@ public class CustomerListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return customerlist.size();
+        return customers.size();
     }
 
     @Override
     public CustomerInfoModel getItem(int position) {
-        return customerlist.get(position);
+        return customers.get(position);
     }
 
     @Override
@@ -77,29 +78,29 @@ public class CustomerListAdapter extends BaseAdapter {
     }
 
     // Filter Class
-   /* public void filter(String charText) {
+    public void filter(String charText) {
 
        String queryText = charText.toLowerCase(Locale.getDefault());
 
-arraylist.size();
+        System.out.println("searchlist"+searchList.size());
         if (queryText.length() == 0) {
-            customerlist.clear();
-            customerlist.addAll(arraylist);
-            System.out.println(customerlist.size());
+            customers.clear();
+            customers.addAll(searchList);
+            System.out.println(customers.size());
 
         } else {
-            customerlist.clear();
-            for (CustomerInfoModel customer : arraylist) {
+            customers.clear();
+            for (CustomerInfoModel customer : searchList) {
                 if (customer.getName().toLowerCase(Locale.getDefault()).contains(queryText)) {
-                    customerlist.add(customer);
+                    customers.add(customer);
                 }
-                System.out.println(customerlist.size());
+                System.out.println(customers.size());
             }
 
         }
         notifyDataSetChanged();
 
-    }*/
+    }
 
 
 }

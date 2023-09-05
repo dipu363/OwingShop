@@ -8,14 +8,14 @@
 
     <ImageView
         android:id="@+id/cusphotoid"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@drawable/userphoto" />
 
     <ImageView
         android:id="@+id/phoneiconid"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_marginStart="10dp"
         android:layout_below="@+id/customeraddressid"
         android:background="@drawable/ic_baseline_phone_android_24" />
@@ -28,7 +28,7 @@
         android:layout_toEndOf="@+id/cusphotoid"
         android:text="dipu"
         android:textColor="@color/DarkBlue"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_below="@+id/cusnameid"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/cusphotoid"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/cusphoneid"
@@ -49,8 +49,8 @@
         android:layout_below="@+id/customeraddressid"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/phoneiconid"
-        android:text="dipu"
+        android:text="01933932636"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
 </RelativeLayout>
