@@ -34,6 +34,7 @@ public class CustomerActivity extends AppCompatActivity {
     FloatingActionButton flbtn;
     private CustomerListAdapter cuslistadapter;
     private List<CustomerInfoModel> customerlist;
+    private ArrayList<CustomerInfoModel> searchList;
 
     DatabaseReference cusInfo;
     FirebaseAuth mAuth;
@@ -56,14 +57,14 @@ public class CustomerActivity extends AppCompatActivity {
         editsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                //cuslistadapter.filter(s);
+               // cuslistadapter.filter(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                //  cuslistadapter.filter(s);
-                return false;
+                  cuslistadapter.filter(s);
+                return true;
             }
         });
 
@@ -75,8 +76,10 @@ public class CustomerActivity extends AppCompatActivity {
             startActivity(intentadd);
         });
         customerlist = new ArrayList<>();
-        cuslistadapter = new CustomerListAdapter(this, customerlist);
+        searchList = new ArrayList<>();
         getcustomerlist();
+        cuslistadapter = new CustomerListAdapter(this, customerlist,searchList);
+
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             String name = customerlist.get(position).getName();
@@ -110,9 +113,10 @@ public class CustomerActivity extends AppCompatActivity {
                 customerlist.clear();
                 // numofCus = (int) dataSnapshot.getChildrenCount();
                     for(DataSnapshot listdata:dataSnapshot.getChildren()){
-                           CustomerInfoModel customerNames = listdata.getValue(CustomerInfoModel.class);
+                           CustomerInfoModel customer = listdata.getValue(CustomerInfoModel.class);
                            // Binds all strings into an array
-                           customerlist.add(customerNames);
+                           customerlist.add(customer);
+                           searchList.add(customer);
                     }
 
 
