@@ -47,7 +47,7 @@ public class CustomerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setTitle("CUSTOMERS");
+        actionBar.setTitle("Customers");
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -100,9 +100,6 @@ public class CustomerActivity extends AppCompatActivity {
 
 
     }
-
-
-
     public void getcustomerlist(){
         String  userid = mUser.getUid();
         cusInfo = FirebaseDatabase.getInstance().getReference("CustomerInfo").child(userid);
@@ -131,7 +128,6 @@ public class CustomerActivity extends AppCompatActivity {
 
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
