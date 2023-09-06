@@ -33,7 +33,7 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
     private EditText singelbalance;
     private CardView savebt, cancelbt, plusbt, minusbt;
     private String name, phone, address, userid, cusid, balance, singlblance, balancetk;
-    private Double amount, totalamount, total;
+    private Double amount, totalamount, total,preDrBalance,preCrBalance;
 
 
     DatabaseReference db_balance, db_balance_info;
@@ -175,15 +175,15 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
 
             Cursor c = sqLiteBD.getnetbalence(cusid);
             if (c.moveToFirst()) {
-                Double predrbalence = c.getDouble(3);
-                Double precrbalence = c.getDouble(4);
+/*                Double predrbalence = c.getDouble(3);
+                Double precrbalence = c.getDouble(4);*/
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 Date date = new Date();
                 formatter.format(date);
                 String trdate = formatter.format(date);
                 totalamount = Double.parseDouble(balancetk);
-                Double netcrbalence = precrbalence + totalamount;
-                BalanceModel balanceModel = new BalanceModel(userid, cusid, predrbalence, netcrbalence, trdate);
+                Double netcrbalence = preCrBalance + totalamount;
+                BalanceModel balanceModel = new BalanceModel(userid, cusid, preDrBalance, netcrbalence, trdate);
                 sqLiteBD.updateNetBalance(balanceModel, cusid);
                 db_balance.setValue(balanceModel);
                 getbalance();
@@ -224,7 +224,9 @@ public class PaidCalculationActivity extends AppCompatActivity implements View.O
                     assert balanceModel != null;
                     System.out.println(balanceModel.getCrBalance().toString());
                     double nettotalbalance =0.0;
-                    nettotalbalance = balanceModel.getDrBalance() - balanceModel.getCrBalance();
+                    preDrBalance = balanceModel.getDrBalance();
+                    preCrBalance=balanceModel.getCrBalance();
+                    nettotalbalance =  preDrBalance - preCrBalance;
                     String netduebalance = String.valueOf(nettotalbalance);
                     previousBalance.setText(netduebalance);
 
