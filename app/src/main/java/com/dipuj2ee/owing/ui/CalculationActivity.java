@@ -1,8 +1,6 @@
 package com.dipuj2ee.owing.ui;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -29,11 +27,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CalculationActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView totalbalance,previousBalance;
-    private EditText singelbalance;
-    private CardView savebt, cancelbt, plusbt, minusbt;
-    private String name, phone, address, userid, cusid, balance, singlblance, balancetk;
-    private Double amount, totalamount, total,preDrBalance,preCrBalance;
+    private TextView totalBalance, previousBalance;
+    private EditText singleBalance;
+    private String userid;
+    private String cusId;
+    private String balanceTk;
+    private Double totalAmount;
+    private Double preDrBalance;
+    private Double preCrBalance;
+
+    private boolean hasPreviousDue;
 
 
     DatabaseReference db_balance, db_balance_info;
@@ -42,23 +45,23 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
     SQLiteDBHandeler sqLiteBD;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar .setDisplayShowHomeEnabled(true);
+        assert actionBar != null;
+        actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Calculator");
         setContentView(R.layout.activity_calculation);
-        totalbalance =findViewById(R.id.totalbalanceid);
-        previousBalance =findViewById(R.id.previusduetextid);
-        singelbalance =findViewById(R.id.singelbalanceid);
-        savebt = findViewById(R.id.savecardbuttonid);
-        cancelbt = findViewById(R.id.cancelcardbuttonid);
-        plusbt = findViewById(R.id.plusbuttonid);
-        minusbt = findViewById(R.id.minusbuttonid);
+        totalBalance = findViewById(R.id.totalbalanceid);
+        previousBalance = findViewById(R.id.previusduetextid);
+        singleBalance = findViewById(R.id.singelbalanceid);
+        CardView savebt = findViewById(R.id.savecardbuttonid);
+        CardView cancelbt = findViewById(R.id.cancelcardbuttonid);
+        CardView plusbt = findViewById(R.id.plusbuttonid);
+        CardView minusbt = findViewById(R.id.minusbuttonid);
 
         plusbt.setOnClickListener(this);
         minusbt.setOnClickListener(this);
@@ -69,13 +72,13 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         mAuth = FirebaseAuth.getInstance();
         fUser = mAuth.getCurrentUser();
         Bundle bundle = getIntent().getExtras();
-        name = bundle.getString("name");
-        phone = bundle.getString("phone");
-        address = bundle.getString("address");
+        String name = bundle.getString("name");
+        String phone = bundle.getString("phone");
+        String address = bundle.getString("address");
         userid = bundle.getString("userid");
-        cusid = bundle.getString("cusid");
-        db_balance = FirebaseDatabase.getInstance().getReference("Balance").child(fUser.getUid()).child(cusid);
-        db_balance_info = FirebaseDatabase.getInstance().getReference("BalanceInfo").child(fUser.getUid()).child(cusid);
+        cusId = bundle.getString("cusid");
+        db_balance = FirebaseDatabase.getInstance().getReference("Balance").child(fUser.getUid()).child(cusId);
+        db_balance_info = FirebaseDatabase.getInstance().getReference("BalanceInfo").child(fUser.getUid()).child(cusId);
 
 
     }
@@ -83,7 +86,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onStart() {
         super.onStart();
-        getbalance();
+        getPreviousDueBalance();
     }
 
     //this mathod use for back to previus page
@@ -99,52 +102,133 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id .plusbuttonid:
-               String balance= String.valueOf( totalbalance.getText());
-               String singlblance= String.valueOf( singelbalance.getText());
-                if(singlblance.equals("")) {
+        Double amount;
+        Double total;
+        switch (v.getId()) {
+            case R.id.plusbuttonid:
+                String balance = String.valueOf(totalBalance.getText());
+                String singlblance = String.valueOf(singleBalance.getText());
+                if (singlblance.equals("")) {
                     Toast.makeText(this, "টাকার পরিমান লিখুন", Toast.LENGTH_SHORT).show();
-                }else {
-                     amount= Double.parseDouble(singlblance);
-                    if(balance.equals("")){
-                        totalbalance.setText(String.valueOf(amount));
-                        singelbalance.setText("");
-                    }else{
-                         totalamount= Double.parseDouble(balance);
-                         total = totalamount+amount;
-                        totalbalance.setText(String.valueOf(total));
-                        singelbalance.setText("");
+                } else {
+                    amount = Double.parseDouble(singlblance);
+                    if (balance.equals("")) {
+                        totalBalance.setText(String.valueOf(amount));
+                        singleBalance.setText("");
+                    } else {
+                        totalAmount = Double.parseDouble(balance);
+                        total = totalAmount + amount;
+                        totalBalance.setText(String.valueOf(total));
+                        singleBalance.setText("");
                     }
                 }
                 break;
-                case R.id .minusbuttonid:
-                balance= String.valueOf( totalbalance.getText());
-                singlblance= String.valueOf( singelbalance.getText());
-                if(singlblance.equals("")) {
+            case R.id.minusbuttonid:
+                balance = String.valueOf(totalBalance.getText());
+                singlblance = String.valueOf(singleBalance.getText());
+                if (singlblance.equals("")) {
                     Toast.makeText(this, "টাকার পরিমান লিখুন", Toast.LENGTH_SHORT).show();
-                }else {
-                        amount= Double.parseDouble(singlblance);
-                        totalamount= Double.parseDouble(balance);
-                        total = totalamount-amount;
-                        totalbalance.setText(String.valueOf(total));
-                        singelbalance.setText("");
-                    }
+                } else {
+                    amount = Double.parseDouble(singlblance);
+                    totalAmount = Double.parseDouble(balance);
+                    total = totalAmount - amount;
+                    totalBalance.setText(String.valueOf(total));
+                    singleBalance.setText("");
+                }
 
                 break;
 
             case R.id.savecardbuttonid:
-                rowcount();
-                updatenetdrbalence();
+
+                if (!hasPreviousDue) {
+                    saveDueAmount();
+                } else {
+                    updateDueAmount();
+                }
             case R.id.cancelcardbuttonid:
-                singelbalance.setText("");
-                totalbalance.setText("");
+                singleBalance.setText("");
+                totalBalance.setText("");
                 break;
 
         }
 
     }
-    public void  rowcount(){
+
+    private void getPreviousDueBalance() {
+
+        db_balance.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChildren()) {
+                    hasPreviousDue = true;
+                    System.out.println(dataSnapshot.getValue());
+                    BalanceModel balanceModel = dataSnapshot.getValue(BalanceModel.class);
+                    assert balanceModel != null;
+                    System.out.println(balanceModel.getCrBalance().toString());
+                    double nettotalbalance = 0.0;
+                    preDrBalance = balanceModel.getDrBalance();
+                    preCrBalance = balanceModel.getCrBalance();
+                    nettotalbalance = preDrBalance - preCrBalance;
+                    String netduebalance = String.valueOf(nettotalbalance);
+                    previousBalance.setText(netduebalance);
+
+                } else {
+                    hasPreviousDue = false;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void saveDueAmount() {
+
+        balanceTk = totalBalance.getText().toString().trim();
+        String key = db_balance_info.push().getKey();
+        if (balanceTk.equals("")) {
+            Toast.makeText(CalculationActivity.this, "Please Add amount TK", Toast.LENGTH_SHORT).show();
+        } else {
+            Date date = new Date();
+            String trdate = SimpleDateFormat.getDateTimeInstance().format(date);
+            totalAmount = Double.parseDouble(balanceTk);
+            BalanceModel balanceModel = new BalanceModel(userid, cusId, totalAmount, 0.0, trdate);
+            db_balance.setValue(balanceModel);
+            assert key != null;
+            db_balance_info.child(key).setValue(balanceModel);
+            getPreviousDueBalance();
+            Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateDueAmount() {
+
+        balanceTk = totalBalance.getText().toString().trim();
+        String key = db_balance_info.push().getKey();
+        if (balanceTk.equals("")) {
+            Toast.makeText(CalculationActivity.this, "Please Add amount TK", Toast.LENGTH_SHORT).show();
+        } else {
+            Date date = new Date();
+            String trdate = SimpleDateFormat.getDateTimeInstance().format(date);
+            //ystem.out.println("local date formet" +trdate);
+            totalAmount = Double.parseDouble(balanceTk);
+            Double netdrbalence = preDrBalance + totalAmount;
+            BalanceModel balanceModel = new BalanceModel(userid, cusId, netdrbalence, preCrBalance, trdate);
+            BalanceModel balanceinfoModel = new BalanceModel(userid, cusId, totalAmount, 0.0, trdate);
+            db_balance.setValue(balanceModel);
+            assert key != null;
+            db_balance_info.child(key).setValue(balanceinfoModel);
+            getPreviousDueBalance();
+            Toast.makeText(CalculationActivity.this, "update Successful", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+/*    public void  rowcount(){
         Cursor c = sqLiteBD.getDebitTransection(cusid);
         int rowcount = c.getCount();
         if(rowcount > 100){
@@ -188,65 +272,6 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
             db_balance_info.child(key).setValue(balanceModel);
             //Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
-/*
-        db_customer.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.hasChildren()) {
-                    /////spacefic value retrieving from firebase database
-                    String value = dataSnapshot.child("balance").getValue().toString();
-                    if (value.equals("")) {
-                        amount = 0;
-                    } else {
-                        amount = Integer.valueOf(value);
-                    }
-
-                    // amount = Integer.valueOf(value);
-
-
-                }
-                else{
-                    String id = db_customer.push().getKey();
-                    BalanceModel balModel = new BalanceModel(id, balancetk);
-                    db_customer.setValue(balModel);
-                    Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
-
-        totalamount = Integer.valueOf(balancetk);
-        total = totalamount + amount;
-        String accounttotal = String.valueOf(total);
-        String id = db_customer.push().getKey();
-        BalanceModel balModel = new BalanceModel(id, accounttotal);
-        db_customer.setValue(balModel);
-        Toast.makeText(CalculationActivity.this, "Customer Account Updated", Toast.LENGTH_SHORT).show();
-
-
-*/
-
-
-        // String userid = fUser.getUid();
-
     }
     private void updatenetdrbalence() {
         balancetk = totalbalance.getText().toString().trim();
@@ -258,8 +283,8 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
 
             Cursor c = sqLiteBD.getnetbalence(cusid);
             if (c.moveToFirst()) {
-/*                Double predrbalence = c.getDouble(3);
-                Double precrbalence = c.getDouble(4);*/
+*//*                Double predrbalence = c.getDouble(3);
+                Double precrbalence = c.getDouble(4);*//*
 
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 Date date = new Date();
@@ -271,7 +296,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
                 //sqLiteBD.addnetBalance(balanceModel);
                 sqLiteBD.updateNetBalance(balanceModel, cusid);
                 db_balance.setValue(balanceModel);
-                getbalance();
+                getPreviousDueBalance();
                 // db_balance_info.child(key).setValue(balanceModel);
                 Toast.makeText(CalculationActivity.this, "update Successful", Toast.LENGTH_SHORT).show();
 
@@ -284,7 +309,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
                 BalanceModel balanceModel = new BalanceModel(userid, cusid, totalamount, 0.0, trdate);
                 sqLiteBD.addnetBalance(balanceModel);
                 db_balance.setValue(balanceModel);
-                getbalance();
+                getPreviousDueBalance();
                 //db_balance_info.child(key).setValue(balanceModel);
                 Toast.makeText(CalculationActivity.this, "Save Successful", Toast.LENGTH_SHORT).show();
 
@@ -294,34 +319,5 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         }
 
 
-    }
-    public void getbalance(){
-
-        db_balance.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.hasChildren()){
-                    System.out.println(dataSnapshot.getValue());
-                   BalanceModel balanceModel = dataSnapshot.getValue(BalanceModel.class);
-                    assert balanceModel != null;
-                    System.out.println(balanceModel.getCrBalance().toString());
-                    double nettotalbalance =0.0;
-                    preDrBalance = balanceModel.getDrBalance();
-                    preCrBalance = balanceModel.getCrBalance();
-                    nettotalbalance =  preDrBalance-preCrBalance;
-                    String netduebalance = String.valueOf(nettotalbalance);
-                    previousBalance.setText(netduebalance);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
+    }*/
 }
