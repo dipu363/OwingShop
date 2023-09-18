@@ -99,10 +99,10 @@ public class SmsActivity extends AppCompatActivity {
 
                     System.out.println(userModel.getUname());
                 }
-                String netBalance = bundle.getString("netBalance");
+                //String netBalance = bundle.getString("netBalance");
                 String name = userModel.getUname();
                 String phone = userModel.getPhone();
-                String sms = name + "\n" + phone + "\nআপনার বাকি আছে" + netBalance + "টাকা\nধন্যবাদ";
+                String sms = name + "\n" + phone ;
                 editTextMessage.setText(sms);
 
 

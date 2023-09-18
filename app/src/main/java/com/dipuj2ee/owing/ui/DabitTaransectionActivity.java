@@ -1,12 +1,13 @@
 package com.dipuj2ee.owing.ui;
 
-import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,20 +22,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DabitTaransectionActivity extends AppCompatActivity {
 
     private TextView debittotaltaka ,credittotaltaka;
 
-    private String name,phone,address,userid,cusid;
     private ListView listView;
     private DrTransectionAdapter drTransectionAdapter;
     private List<BalanceModel> balanceModelList;
-    private List<BalanceModel> balanceModelList2;
     SQLiteDBHandeler sqLiteDBHandeler;
-    private List<Double> drbalancelist;
-    private List<Double> crbalancelist;
 
     DatabaseReference db_balance,db_balance_info;
 
@@ -46,6 +44,7 @@ public class DabitTaransectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dabit_taransection);
 
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar .setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("TRANSACTION DETAILS");
@@ -55,15 +54,11 @@ public class DabitTaransectionActivity extends AppCompatActivity {
         listView = findViewById(R.id.drlistid);
         sqLiteDBHandeler = new SQLiteDBHandeler(this);
         balanceModelList = new ArrayList<>();
-        balanceModelList2 = new ArrayList<>();
-        drTransectionAdapter = new DrTransectionAdapter(this,balanceModelList);
+        drTransectionAdapter = new DrTransectionAdapter(this ,balanceModelList);
 
         Bundle bundle = getIntent().getExtras();
-        name = bundle.getString("name");
-        phone = bundle.getString("phone");
-        address = bundle.getString("address");
-        userid = bundle.getString("userid");
-        cusid = bundle.getString("cusid");
+        String userid = bundle.getString("userid");
+        String cusid = bundle.getString("cusid");
         db_balance = FirebaseDatabase.getInstance().getReference("Balance").child(userid).child(cusid);
         db_balance_info = FirebaseDatabase.getInstance().getReference("BalanceInfo").child(userid).child(cusid);
 
@@ -76,7 +71,7 @@ public class DabitTaransectionActivity extends AppCompatActivity {
     }
 
 
-    public void getDrTransection(){
+/*    public void getDrTransection(){
 
         Cursor c =sqLiteDBHandeler.getDebitTransection(cusid);
 
@@ -96,9 +91,10 @@ public class DabitTaransectionActivity extends AppCompatActivity {
 
 
 
-    }
+    }*/
     private void getTransection(){
         db_balance_info.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 balanceModelList.clear();
@@ -108,6 +104,10 @@ public class DabitTaransectionActivity extends AppCompatActivity {
                     System.out.println(balanceModel.getCusid());
                     balanceModelList.add(balanceModel);
                 }
+
+                Collections.reverse(balanceModelList);
+                drTransectionAdapter.notifyDataSetChanged();
+
 
                 listView.setAdapter(drTransectionAdapter);
             }
@@ -120,7 +120,7 @@ public class DabitTaransectionActivity extends AppCompatActivity {
 
 
     }
-    public void getbalance(){
+/*    public void getbalance(){
         Cursor c =sqLiteDBHandeler.getindividualcusbalance(cusid);
         drbalancelist = new ArrayList<Double>();
         crbalancelist = new ArrayList<Double>();
@@ -166,7 +166,7 @@ public class DabitTaransectionActivity extends AppCompatActivity {
 
 
 
-    }
+    }*/
     public void getnetbalance(){
 
         db_balance.addValueEventListener(new ValueEventListener() {
